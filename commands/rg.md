@@ -39,6 +39,21 @@ rg -n -C 2 "TODO" src/
 
 # dist や node_modules を除外して検索
 rg -g '!dist' -g '!node_modules' "TODO" .
+
+# ファイルタイプを指定して検索（拡張子を意識しなくてよい）
+rg -t py "def main"
+
+# ファイルタイプを除外して検索
+rg -T test "TODO" .
+
+# 単語単位で一致（部分一致を除外）
+rg -w "id" src/
+
+# 一致しない行を表示
+rg -v "TODO" src/
+
+# 正規表現を使わずリテラル文字列として検索
+rg -F "a.b[c]" src/
 ```
 
 ## Frequently Used Options
@@ -64,6 +79,24 @@ rg -C 2 "pattern" .
 
 # 1 行ずつ確認しやすくする
 rg -n --color=always "pattern" .
+
+# 一致数だけカウント
+rg -c "pattern" .
+
+# 一致した部分だけ表示
+rg -o "pattern" .
+
+# ファイル一覧のみ取得（検索対象の確認）
+rg --files
+
+# サポートされているファイルタイプ一覧を確認
+rg --type-list
+
+# 検索結果の統計情報を表示
+rg --stats "pattern" .
+
+# JSON 形式で出力（他ツールとの連携向け）
+rg --json "pattern" . | jq
 ```
 
 ## Notes
@@ -71,6 +104,8 @@ rg -n --color=always "pattern" .
 - `.git` 配下は既定で除外されます。
 - `grep` の代替として使いやすいです。
 - ログ確認やコード検索で強力です。
+- `-t`/`-T` で拡張子を意識せずファイルタイプを指定・除外できます（`rg --type-list` で一覧確認可）。
+- `-w` は部分一致を避けたいとき（例: `id` で `valid` にヒットさせたくない場合）に便利です。
 
 ## Related Links
 

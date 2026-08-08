@@ -39,6 +39,19 @@ fd -t f -x stat -c '%y %s %n' .
 
 # サイズの大きいファイルを確認
 fd -t f -x du -h {} | sort -h
+
+# glob パターンで検索（正規表現ではなく通常のワイルドカード）
+fd -g "*.test.ts"
+
+# 検索対象のディレクトリ階層を制限
+fd -d 2 "config"
+
+# 最終更新日で絞り込み
+fd --changed-within 1d
+fd --changed-before 2weeks
+
+# サイズで絞り込み（1MB 以上）
+fd -S +1M
 ```
 
 ## Frequently Used Options
@@ -62,6 +75,21 @@ fd -x echo {}
 
 # 1コマンドに複数のパスをまとめて渡す
 fd -X printf '%s\n' {}
+
+# 絶対パスで表示
+fd -a "pattern"
+
+# 最初の1件だけ表示
+fd -1 "pattern"
+
+# シンボリックリンクもたどって検索
+fd -L "pattern"
+
+# ファイル名だけでなくパス全体をパターン対象にする
+fd -p "src/.*\.test\.ts$"
+
+# 特定パターンを除外して検索
+fd -E "*.min.js" "pattern"
 ```
 
 ## Notes
@@ -69,6 +97,8 @@ fd -X printf '%s\n' {}
 - `find` より短く書けることが多いです。
 - `.gitignore` を尊重するので実務で扱いやすいです。
 - ファイル探索の高速化に向いています。
+- デフォルトは正規表現マッチですが、`-g` を使うと glob（ワイルドカード）で直感的に検索できます。
+- `-p` はファイル名ではなくパス全体をパターン対象にしたいときに使います。
 
 ## Related Links
 

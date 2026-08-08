@@ -35,6 +35,15 @@ mkdir -p build/output
 # ファイルを削除
 rm file.txt
 
+# ディレクトリを中身ごと削除
+rm -r build/
+
+# ファイルの中身を表示
+cat file.txt
+
+# 空ファイルを作成 / タイムスタンプを更新
+touch file.txt
+
 # 文字列を表示
 echo "hello"
 
@@ -49,6 +58,18 @@ sort names.txt
 
 # 重複行を除去
 uniq names.txt
+
+# ディスク使用量を確認（ディレクトリ単位）
+du -sh ./*
+
+# 標準入力を受け取ってコマンドを実行
+find . -name "*.log" | xargs rm
+
+# 出力をファイルに保存しつつ画面にも表示
+echo "done" | tee result.log
+
+# 2つのファイルの差分を確認
+diff old.txt new.txt
 ```
 
 ## Frequently Used Options
@@ -62,6 +83,9 @@ cp -r src/ dest/
 
 # 確認なしで削除
 rm -f file.txt
+
+# 確認なしでディレクトリごと強制削除
+rm -rf build/
 
 # 既存ファイルを上書き
 cp -f source target
@@ -80,6 +104,12 @@ sort names.txt | uniq
 
 # 文字数やワード数も確認
 wc -w app.log
+
+# 行数だけ確認
+wc -l app.log
+
+# ログの追記をリアルタイムで追跡
+tail -f app.log
 ```
 
 ## Notes
@@ -88,6 +118,8 @@ wc -w app.log
 - `head` / `tail` / `sort` / `uniq` はログ確認や整形で便利です。
 - PowerShell では挙動が少し違うので、使用するシェルを意識すると安心です。
 - `uniq` は `sort` との組み合わせで使うことが多いです。
+- `rm -rf` は取り消せないため、対象パスを必ず確認してから実行します。
+- `xargs` はパイプで受け取った一覧に対して一括でコマンドを実行したいときに便利です。
 
 ## Related Links
 

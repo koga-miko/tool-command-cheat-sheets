@@ -39,6 +39,22 @@ curl -L https://example.com
 
 # 認証付きで呼び出す
 curl -u user:pass https://example.com/api
+
+# JSON を送信（Content-Type / Accept を自動付与）
+curl --json '{"name":"demo"}' https://example.com/api
+
+# ファイルの中身を送信
+curl -X POST -H "Content-Type: application/json" -d @body.json https://example.com/api
+
+# ファイルをアップロード（multipart/form-data）
+curl -F "file=@photo.png" https://example.com/upload
+
+# PUT / DELETE で送信
+curl -X PUT -d '{"name":"updated"}' https://example.com/api/1
+curl -X DELETE https://example.com/api/1
+
+# ヘッダーだけ取得（HEAD リクエスト）
+curl -I https://example.com
 ```
 
 ## Frequently Used Options
@@ -64,12 +80,30 @@ curl --retry 3 --retry-delay 2 https://example.com
 
 # ステータスコードだけ取得
 curl -s -o /dev/null -w '%{http_code}\n' https://example.com
+
+# 通信の詳細（リクエスト/レスポンス）を確認
+curl -v https://example.com
+
+# GET のクエリパラメータを安全にエンコードして付与
+curl -G --data-urlencode "q=hello world" https://example.com/search
+
+# クッキーを保存 / 送信
+curl -c cookies.txt https://example.com/login
+curl -b cookies.txt https://example.com/dashboard
+
+# レスポンスタイムを計測
+curl -s -o /dev/null -w 'total: %{time_total}s\n' https://example.com
+
+# 証明書検証をスキップ（自己署名証明書の検証環境など）
+curl -k https://example.com
 ```
 
 ## Notes
 
-- `-s` と `-f` を使うとスクリプト向けです。
+- `-s` で静かな出力、`-f` で失敗時に終了コードを返すようにするとスクリプト向けです。
 - `-H` と `-d` を組み合わせると API テストに便利です。
+- `--json` は curl 7.82 以降で使える省略記法で、`Content-Type` と `Accept` を自動で付与します。
+- `-k` は動作確認用途に限定し、本番相当の通信では証明書検証を無効化しないよう注意してください。
 - Windows / Linux / macOS でほぼ共通です。
 
 ## Related Links
