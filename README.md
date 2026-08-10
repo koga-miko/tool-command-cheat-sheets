@@ -44,6 +44,7 @@
 - [frawk](tools/frawk.md) - 行単位のテキスト処理
 - [ffmpeg](tools/ffmpeg.md) - 音声・動画の変換と抽出
 - [jq](tools/jq.md) - JSON の整形と抽出
+- [jaq](tools/jaq.md) - Rust 製の高速な jq 互換 CLI
 - [hexyl](tools/hexyl.md) - バイナリの16進表示
 
 ## 1シートの構成
@@ -73,12 +74,12 @@
 
 - 検索系: rg / fd / coreutils
 - 開発作業: git / curl / docker
-- データ処理: jq / frawk / hexyl
+- データ処理: jq / jaq / frawk / hexyl
 - メディア処理: ffmpeg
 
 ### 学習の順序
 
 1. まずは検索系: rg / fd / coreutils
 2. 次に開発作業: git / curl / docker
-3. その後にデータ処理: jq / frawk / hexyl
+3. その後にデータ処理: jq / jaq / frawk / hexyl
 4. 最後にメディア変換: ffmpeg
