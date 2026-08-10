@@ -33,6 +33,21 @@ frawk -F',' '{print $2}' data.csv
 
 # 先頭行をスキップして処理
 frawk 'NR > 1 {print $1, $2}' data.csv
+
+# CSV として正しくパースして列を表示（クォート内のカンマも1列として扱える）
+frawk -i csv '{print $1, $3}' data.csv
+
+# CSV → TSV に変換
+frawk -i csv -o tsv '{print}' data.csv
+
+# TSV → CSV に変換
+frawk -i tsv -o csv '{print}' data.tsv
+
+# 入出力とも CSV として扱う省略形
+frawk --csv '{print $1}' data.csv
+
+# 列の合計を計算
+frawk -i csv '{sum += $2} END {print sum}' data.csv
 ```
 
 ## Frequently Used Options
@@ -49,16 +64,34 @@ frawk 'NR > 1 {print $0}' data.csv
 
 # 1行目だけ処理
 frawk 'NR == 1 {print $0}' data.csv
+
+# 入力フォーマットを明示的に指定
+frawk -i csv '...' data.csv
+frawk -i tsv '...' data.tsv
+
+# 出力フォーマットを明示的に指定
+frawk -o csv '...' data.txt
+
+# 入出力を同じフォーマットに揃える省略形
+frawk --csv '...' data.csv
+frawk --tsv '...' data.tsv
+
+# 変数を渡す
+frawk -v threshold=100 -i csv '$2 > threshold' data.csv
+
+# 並列処理で高速化
+frawk -i csv -j 4 '{sum += $2} END {print sum}' data.csv
 ```
 
 ## Notes
 
 - awk に近い書き方なので、既存スクリプトと相性が良いです。
-- CSV や TSV の軽い変換に向いています。
+- `-F` は単純な区切り文字での分割なので、クォート内にカンマを含む CSV では崩れることがあります。正しくパースしたい場合は `-i csv` / `-i tsv` を使います。
+- `-i` / `-o` はそれぞれ入力・出力フォーマットの指定で、`--csv` / `--tsv` は両方を同じフォーマットに揃える省略形です。CSV↔TSV 変換にもそのまま使えます。
 - 複雑な処理は `jq` や `python` に寄せることもあります。
 
 ## Related Links
 
-- Download: https://github.com/ericchiang/frawk/releases
-- Install: https://github.com/ericchiang/frawk#installation
-- License: https://github.com/ericchiang/frawk/blob/master/LICENSE
+- Download: https://github.com/ezrosent/frawk/releases
+- Install: https://github.com/ezrosent/frawk#installation
+- License: https://github.com/ezrosent/frawk/blob/master/LICENSE-MIT
