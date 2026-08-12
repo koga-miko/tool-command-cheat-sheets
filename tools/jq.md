@@ -16,6 +16,58 @@
 jq [options] '<filter>' [file]
 ```
 
+## Filter Syntax Reference
+
+`'...'` の中身は「jq フィルタ（jq query language）」と呼ばれる、jq 独自のクエリ言語です。JSON のようなデータ形式ではなく、JSON を加工するための DSL（ドメイン特化言語）で、[jaq](jaq.md) もほぼ同じ構文を実装しています。
+
+```jq
+# 恒等関数（入力をそのまま出力）
+.
+
+# フィールドアクセス
+.foo
+.foo.bar
+.foo?              # フィールドが無くてもエラーにせず null を返す
+
+# インデックス・スライス
+.[0]
+.[-1]
+.[2:5]
+
+# 配列・オブジェクトの全要素を展開
+.[]
+
+# パイプ（左の出力を右の入力に渡す）
+.foo | .bar
+
+# 配列・オブジェクトの構築
+[.foo, .bar]
+{ name: .foo, age: .bar }
+
+# 条件でフィルタ
+select(.active == true)
+
+# 各要素に処理を適用
+map(.price * 1.1)
+
+# 比較・論理演算子
+.age >= 18 and .active == true
+
+# 値が null/エラーのときの代替値
+.foo // "default"
+
+# 文字列補間
+"name: \(.name)"
+
+# 変数束縛
+. as $x | $x.foo + $x.bar
+
+# 条件分岐
+if .age >= 18 then "adult" else "minor" end
+```
+
+よく使う組み込み関数: `length` `keys` `has` `type` `to_entries` `from_entries` `sort_by` `group_by` `unique` `add` `range` `reduce` `foreach`
+
 ## Common Examples
 
 ```bash
