@@ -48,6 +48,7 @@
 - [jq](tools/jq.md) - JSON の整形と抽出
 - [jaq](tools/jaq.md) - Rust 製の高速な jq 互換 CLI
 - [hexyl](tools/hexyl.md) - バイナリの16進表示
+- [sqlite3](tools/sqlite3.md) - ファイル1つで完結する軽量 DB の CLI
 
 ### データ形式
 
@@ -84,6 +85,7 @@
 - 開発作業: git / curl / docker
 - データ処理: jq / jaq / frawk / hexyl
 - メディア処理: ffmpeg
+- DB操作: sqlite3
 - データ形式: JSON / YAML / TOML
 
 ### 学習の順序
@@ -91,5 +93,6 @@
 1. まずは検索系: rg / fd / coreutils
 2. 次に開発作業: git / curl / docker
 3. その後にデータ処理: jq / jaq / frawk / hexyl
-4. 最後にメディア変換: ffmpeg
-5. 合わせてデータ形式の基礎: JSON / YAML / TOML
+4. メディア変換: ffmpeg
+5. DB を触ってみる: sqlite3
+6. 合わせてデータ形式の基礎: JSON / YAML / TOML
