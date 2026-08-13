@@ -2,7 +2,7 @@
 
 ## Overview
 
-`jaq`（発音: "jack"）は、Rust 製の `jq` 互換 CLI です。`jq` とほぼ同じフィルタ構文をそのまま使えつつ、コンパイル言語ならではの高速な実行と、分かりやすいエラー表示が特徴です。実務では大きめの JSON を繰り返し処理する場面や、`jq` フィルタのデバッグをしたい場面で向いています。
+`jaq`（発音: "jack"）は、Rust 製の `jq` 互換 CLI です。`jq` とほぼ同じフィルタ構文をそのまま使えつつ、コンパイル言語ならではの高速な実行と、分かりやすいエラー表示が特徴です。実務では大きめの JSON を繰り返し処理する場面や、`jq` フィルタのデバッグをしたい場面で向いています。また `jq` には無い機能として、JSON だけでなく YAML / TOML / XML / CBOR / CSV / TSV も直接読み書きできます（v3.0 以降）。
 
 ## When to Use
 
@@ -10,6 +10,7 @@
 - 大きな JSON ファイルやストリームを何度も加工・集計したいとき
 - フィルタの構文ミスを、どこが間違っているか分かりやすく確認したいとき
 - `jq` の一部の癖のある挙動（バグ）を避けたいとき
+- YAML / TOML / XML / CSV などを JSON に変換したり、逆に JSON をそれらの形式で出力したいとき
 
 ## Basic Syntax
 
@@ -94,6 +95,42 @@ jaq -r '.name' data.json
 jaq -c '.items[]' data.json
 ```
 
+## Multi-Format Input/Output（jaq だけの機能）
+
+`jq` は JSON しか扱えませんが、`jaq` は `--from FORMAT` / `--to FORMAT` を指定することで JSON 以外の形式もそのまま読み書きできます。対応フォーマットは `raw` `raw0` `json` `yaml` `cbor` `toml` `xml` `csv` `tsv` です。拡張子（`.yaml` `.yml` `.toml` `.xml` `.xhtml` `.csv` `.tsv` `.cbor`）からも自動判定されるため、多くの場合 `--from` は省略できます。
+
+```bash
+# YAML を読み込んでクエリ（--from を明示）
+jaq --from yaml '.services | keys' docker-compose.yml
+
+# 拡張子から自動判定されるので --from を省略できる
+jaq '.profile.release["codegen-units"]' Cargo.toml
+
+# YAML → JSON に変換
+jaq --from yaml . config.yaml
+
+# JSON → YAML に変換（1回のフィルタ評価で形式変換もできる）
+jaq --to yaml . data.json
+
+# TOML → JSON に変換
+jaq --from toml . Cargo.toml
+
+# JSON → TOML に変換（ルート値がオブジェクトである必要あり）
+jaq --to toml '{name: .name, version: .version}' package.json
+
+# CSV を読み込む（各行がそのまま配列になる）
+jaq -c --from csv data.csv
+
+# CSV 全体を1つの配列としてまとめて読み込む
+jaq -c --from csv --slurp data.csv
+
+# XML を読み込んでクエリ（タグは {t: 名前, a: 属性, c: 子要素} で表現される）
+jaq --from xml '.. | select(.t? == "a") | .a.href' page.xhtml
+
+# XML を読み込んで加工し、XML のまま出力する
+jaq --from xml --to xml '(.. | select(.t? == "em") | .t) = "i"' page.xhtml
+```
+
 ## Frequently Used Options
 
 ```bash
@@ -132,9 +169,14 @@ jaq -f filter.jq data.json
 - フィルタの構文エラーがどこにあるか（該当箇所）を分かりやすく指摘してくれるため、複雑なフィルタのデバッグがしやすいです。
 - `jq` の一部のバグ・不整合な挙動を修正しているため、エッジケースでは `jq` と出力が完全には一致しないことがあります。乗り換える際は重要な処理で出力を比較しておくと安心です。
 - インストールは `cargo install jaq`（Rust ツールチェーンが必要）が手軽です。
+- TOML への出力（`--to toml`）はルート値がオブジェクトである必要があり、配列や `null` を含むオブジェクトなどは出力に失敗します。
+- XML は要素を `{"t": タグ名, "a": 属性, "c": 子要素の配列}` という TAC オブジェクトの形で表現し、コメントや CDATA、XML宣言なども情報を欠落させずに扱えます（ラウンドトリップ可能な設計）。
+- CSV/TSV はヘッダー行を自動でオブジェクトのキーにはせず、各行が単純な配列になります。ヘッダー付きで扱いたい場合は公式リポジトリの `examples/table.jq`（`from_table` などのヘルパー）が参考になります。
+- YAML の出力にはデフォルトで `---`（開始）/ `...`（終了）が付きます。複数の値をまとめて出力したい場合は `-j`（`--join-output`）で省略できます。
 
 ## Related Links
 
 - Download: https://github.com/01mf02/jaq/releases
 - Install: https://github.com/01mf02/jaq#installation
+- Manual (multi-format support): https://gedenkt.at/jaq/manual/#formats
 - License: https://github.com/01mf02/jaq/blob/main/LICENSE-MIT
