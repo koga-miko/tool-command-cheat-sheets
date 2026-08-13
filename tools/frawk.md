@@ -94,4 +94,5 @@ frawk -i csv -j 4 '{sum += $2} END {print sum}' data.csv
 
 - Download: https://github.com/ezrosent/frawk/releases
 - Install: https://github.com/ezrosent/frawk#installation
+- Docs: https://github.com/ezrosent/frawk/blob/master/README.md
 - License: https://github.com/ezrosent/frawk/blob/master/LICENSE-MIT

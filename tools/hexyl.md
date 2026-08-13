@@ -58,4 +58,5 @@ hexyl --color file.bin
 
 - Download: https://github.com/sharkdp/hexyl/releases
 - Install: https://github.com/sharkdp/hexyl#installation
+- Docs: https://github.com/sharkdp/hexyl/blob/master/README.md
 - License: https://github.com/sharkdp/hexyl/blob/master/LICENSE-MIT

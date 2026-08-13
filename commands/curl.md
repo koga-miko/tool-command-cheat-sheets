@@ -110,4 +110,5 @@ curl -k https://example.com
 
 - Download: https://curl.se/download.html
 - Install: https://curl.se/docs/install.html
+- Docs: https://curl.se/docs/manpage.html
 - License: https://curl.se/docs/copyright.html

@@ -104,4 +104,5 @@ fd -E "*.min.js" "pattern"
 
 - Download: https://github.com/sharkdp/fd/releases
 - Install: https://github.com/sharkdp/fd#installation
+- Docs: https://github.com/sharkdp/fd#how-to-use
 - License: https://github.com/sharkdp/fd/blob/master/LICENSE-MIT

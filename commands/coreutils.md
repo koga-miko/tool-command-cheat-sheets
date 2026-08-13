@@ -125,4 +125,5 @@ tail -f app.log
 
 - Download: https://github.com/microsoft/terminal/tree/main/src/TerminalCore/TerminalApp/Resources/Commandline/Commands/CoreUtils
 - Install: https://learn.microsoft.com/windows/terminal/faq#how-do-i-install-coreutils-on-windows
+- Docs: https://www.gnu.org/software/coreutils/manual/coreutils.html
 - License: https://github.com/microsoft/terminal/blob/main/LICENSE

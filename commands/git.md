@@ -145,4 +145,5 @@ git push origin v1.0.0
 
 - Download: https://git-scm.com/downloads
 - Install: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+- Docs: https://git-scm.com/docs
 - License: https://github.com/git/git/blob/master/COPYING

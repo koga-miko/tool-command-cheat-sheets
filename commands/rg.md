@@ -111,4 +111,5 @@ rg --json "pattern" . | jq
 
 - Download: https://github.com/BurntSushi/ripgrep/releases
 - Install: https://github.com/BurntSushi/ripgrep/blob/master/README.md#installation
+- Docs: https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
 - License: https://github.com/BurntSushi/ripgrep/blob/master/LICENSE-MIT

@@ -33,6 +33,12 @@ ffmpeg -i input.mp4 -resize 1280x720 output.mp4
 
 # GIF に変換
 ffmpeg -i input.mp4 -vf "fps=10,scale=480:-1" output.gif
+
+# サムネイルを作成
+ffmpeg -ss 00:00:05 -i input.mp4 -vframes 1 thumbnail.jpg
+
+# 1 秒ごとに画像を出力
+ffmpeg -i input.mp4 -vf fps=1 frame_%03d.png
 ```
 
 ## Frequently Used Options
@@ -64,4 +70,5 @@ ffmpeg -i input.mp4 -b:v 1000k output.mp4
 
 - Download: https://www.ffmpeg.org/download.html
 - Install: https://www.ffmpeg.org/download.html
+- Docs: https://ffmpeg.org/documentation.html
 - License: https://www.ffmpeg.org/legal.html

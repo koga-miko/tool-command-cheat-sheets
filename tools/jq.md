@@ -119,4 +119,5 @@ jq 'to_entries | sort_by(.key)' data.json
 
 - Download: https://jqlang.github.io/jq/download/
 - Install: https://jqlang.github.io/jq/download/
+- Docs: https://jqlang.github.io/jq/manual/
 - License: https://github.com/jqlang/jq/blob/master/COPYING

@@ -117,4 +117,5 @@ docker volume create mydata
 
 - Download: https://www.docker.com/get-started/
 - Install: https://docs.docker.com/get-docker/
+- Docs: https://docs.docker.com/reference/cli/docker/
 - License: https://www.docker.com/legal/docker-software-end-user-license-agreement
