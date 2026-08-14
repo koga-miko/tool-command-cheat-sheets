@@ -26,7 +26,7 @@
 - コマンド: シェルで日常的に使う汎用的な CLI です。パイプやリダイレクト、スクリプト化と相性がよいです。
   - 例: rg, fd, git, gh, curl, docker, coreutils
 - ツール: 特定の領域に特化したユーティリティです。データ処理・メディア処理・バイナリ確認などに向いています。
-  - 例: awk, frawk, ffmpeg, jq, jaq, hexyl, adb
+  - 例: awk, frawk, sd, ffmpeg, jq, jaq, hexyl, adb
 - データ形式: CLI ではなく、設定ファイルやデータのやり取りで使う記述フォーマットそのものです。構文や書き方のリファレンスとして使います。
   - 例: JSON, YAML, TOML, 正規表現, XPath, CSS セレクタ
 
@@ -46,6 +46,7 @@
 
 - [awk](tools/awk.md) - 行単位のテキスト処理を行う古典的な言語（gawk は Git Bash に同梱）
 - [frawk](tools/frawk.md) - awk を Rust で高速に再実装したツール
+- [sd](tools/sd.md) - Rust 製の直感的な検索・置換 CLI（sed 代替）
 - [ffmpeg](tools/ffmpeg.md) - 音声・動画の変換と抽出
 - [jq](tools/jq.md) - JSON の整形と抽出
 - [jaq](tools/jaq.md) - Rust 製の高速な jq 互換 CLI
@@ -89,7 +90,7 @@
 
 - 検索系: rg / fd / coreutils
 - 開発作業: git / gh / curl / docker
-- データ処理: jq / jaq / awk / frawk / hexyl
+- データ処理: jq / jaq / awk / frawk / sd / hexyl
 - メディア処理: ffmpeg
 - DB操作: sqlite3
 - モバイル開発: adb
@@ -99,7 +100,7 @@
 
 1. まずは検索系: rg / fd / coreutils
 2. 次に開発作業: git / gh / curl / docker
-3. その後にデータ処理: jq / jaq / awk / frawk / hexyl
+3. その後にデータ処理: jq / jaq / awk / frawk / sd / hexyl
 4. メディア変換: ffmpeg
 5. DB を触ってみる: sqlite3
 6. モバイル開発を触るなら: adb
