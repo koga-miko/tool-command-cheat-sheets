@@ -26,7 +26,7 @@
 - コマンド: シェルで日常的に使う汎用的な CLI です。パイプやリダイレクト、スクリプト化と相性がよいです。
   - 例: rg, fd, git, gh, curl, docker, coreutils
 - ツール: 特定の領域に特化したユーティリティです。データ処理・メディア処理・バイナリ確認などに向いています。
-  - 例: awk, frawk, ffmpeg, jq, jaq, hexyl
+  - 例: awk, frawk, ffmpeg, jq, jaq, hexyl, adb
 - データ形式: CLI ではなく、設定ファイルやデータのやり取りで使う記述フォーマットそのものです。構文や書き方のリファレンスとして使います。
   - 例: JSON, YAML, TOML, 正規表現, XPath, CSS セレクタ
 
@@ -51,6 +51,7 @@
 - [jaq](tools/jaq.md) - Rust 製の高速な jq 互換 CLI
 - [hexyl](tools/hexyl.md) - バイナリの16進表示
 - [sqlite3](tools/sqlite3.md) - ファイル1つで完結する軽量 DB の CLI
+- [adb](tools/adb.md) - Android 実機/エミュレータ操作用 CLI
 
 ### データ形式
 
@@ -91,6 +92,7 @@
 - データ処理: jq / jaq / awk / frawk / hexyl
 - メディア処理: ffmpeg
 - DB操作: sqlite3
+- モバイル開発: adb
 - データ形式: JSON / YAML / TOML / 正規表現 / XPath / CSS Selector
 
 ### 学習の順序
@@ -100,4 +102,5 @@
 3. その後にデータ処理: jq / jaq / awk / frawk / hexyl
 4. メディア変換: ffmpeg
 5. DB を触ってみる: sqlite3
-6. 合わせてデータ形式の基礎: JSON / YAML / TOML / 正規表現 / XPath / CSS Selector
+6. モバイル開発を触るなら: adb
+7. 合わせてデータ形式の基礎: JSON / YAML / TOML / 正規表現 / XPath / CSS Selector
