@@ -24,7 +24,7 @@
 このリポジトリでは、次のような基準で「コマンド」と「ツール」を分けています。
 
 - コマンド: シェルで日常的に使う汎用的な CLI です。パイプやリダイレクト、スクリプト化と相性がよいです。
-  - 例: rg, fd, git, curl, docker, coreutils
+  - 例: rg, fd, git, gh, curl, docker, coreutils
 - ツール: 特定の領域に特化したユーティリティです。データ処理・メディア処理・バイナリ確認などに向いています。
   - 例: frawk, ffmpeg, jq, jaq, hexyl
 - データ形式: CLI ではなく、設定ファイルやデータのやり取りで使う記述フォーマットそのものです。構文や書き方のリファレンスとして使います。
@@ -37,6 +37,7 @@
 - [rg](commands/rg.md) - 高速なファイル内容検索
 - [fd](commands/fd.md) - rust 製の find 代替
 - [git](commands/git.md) - バージョン管理
+- [gh](commands/gh.md) - GitHub CLI（PR/Issue 操作、gh api での REST/GraphQL 直叩き）
 - [curl](commands/curl.md) - HTTP リクエスト
 - [docker](commands/docker.md) - コンテナ操作
 - [coreutils](commands/coreutils.md) - 基本ファイル操作の共通コマンド
@@ -82,7 +83,7 @@
 ### よく使う順
 
 - 検索系: rg / fd / coreutils
-- 開発作業: git / curl / docker
+- 開発作業: git / gh / curl / docker
 - データ処理: jq / jaq / frawk / hexyl
 - メディア処理: ffmpeg
 - DB操作: sqlite3
@@ -91,7 +92,7 @@
 ### 学習の順序
 
 1. まずは検索系: rg / fd / coreutils
-2. 次に開発作業: git / curl / docker
+2. 次に開発作業: git / gh / curl / docker
 3. その後にデータ処理: jq / jaq / frawk / hexyl
 4. メディア変換: ffmpeg
 5. DB を触ってみる: sqlite3
