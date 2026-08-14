@@ -28,7 +28,7 @@
 - ツール: 特定の領域に特化したユーティリティです。データ処理・メディア処理・バイナリ確認などに向いています。
   - 例: frawk, ffmpeg, jq, jaq, hexyl
 - データ形式: CLI ではなく、設定ファイルやデータのやり取りで使う記述フォーマットそのものです。構文や書き方のリファレンスとして使います。
-  - 例: JSON, YAML, TOML
+  - 例: JSON, YAML, TOML, 正規表現
 
 ## 目次
 
@@ -56,6 +56,7 @@
 - [JSON](formats/json.md) - 軽量なデータ交換フォーマット
 - [YAML](formats/yaml.md) - インデントで構造を表す設定ファイル向けフォーマット
 - [TOML](formats/toml.md) - キーと値を中心としたシンプルな設定ファイル向けフォーマット
+- [Regex](formats/regex.md) - 文字列パターンマッチングのミニ言語
 
 ## 1シートの構成
 
@@ -87,7 +88,7 @@
 - データ処理: jq / jaq / frawk / hexyl
 - メディア処理: ffmpeg
 - DB操作: sqlite3
-- データ形式: JSON / YAML / TOML
+- データ形式: JSON / YAML / TOML / 正規表現
 
 ### 学習の順序
 
@@ -96,4 +97,4 @@
 3. その後にデータ処理: jq / jaq / frawk / hexyl
 4. メディア変換: ffmpeg
 5. DB を触ってみる: sqlite3
-6. 合わせてデータ形式の基礎: JSON / YAML / TOML
+6. 合わせてデータ形式の基礎: JSON / YAML / TOML / 正規表現
