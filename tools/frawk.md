@@ -89,6 +89,12 @@ frawk -i csv -j 4 '{sum += $2} END {print sum}' data.csv
 - `-F` は単純な区切り文字での分割なので、クォート内にカンマを含む CSV では崩れることがあります。正しくパースしたい場合は `-i csv` / `-i tsv` を使います。
 - `-i` / `-o` はそれぞれ入力・出力フォーマットの指定で、`--csv` / `--tsv` は両方を同じフォーマットに揃える省略形です。CSV↔TSV 変換にもそのまま使えます。
 - 複雑な処理は `jq` や `python` に寄せることもあります。
+- Windows は作者自身も「テストしていない」としており、公式サポート外です。`cargo install frawk` をデフォルト設定のまま実行すると、既定で有効な `use_jemalloc`（Windows/MSVC でビルド不可）や `llvm_backend`（LLVM 12 の用意が必要）が原因でビルドが失敗します。
+
+```bash
+# Windows でビルドする場合は jemalloc / LLVM backend / nightly 機能をすべて無効化する
+cargo install frawk --no-default-features
+```
 
 ## Related Links
 
