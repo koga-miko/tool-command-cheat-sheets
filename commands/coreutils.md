@@ -110,6 +110,9 @@ wc -l app.log
 
 # ログの追記をリアルタイムで追跡
 tail -f app.log
+
+# 先頭の UTF-8 BOM（3バイト: EF BB BF）を取り除く
+tail -c +4 with_bom.txt > without_bom.txt
 ```
 
 ## Notes
@@ -120,6 +123,7 @@ tail -f app.log
 - `uniq` は `sort` との組み合わせで使うことが多いです。
 - `rm -rf` は取り消せないため、対象パスを必ず確認してから実行します。
 - `xargs` はパイプで受け取った一覧に対して一括でコマンドを実行したいときに便利です。
+- `tail -c +N` はバイト単位で先頭からN番目（1始まり）以降を出力します。`tail -c +4` は UTF-8 BOM（3バイト）を読み飛ばして4バイト目から出力するので、BOM除去の定番の書き方です。
 
 ## Related Links
 
