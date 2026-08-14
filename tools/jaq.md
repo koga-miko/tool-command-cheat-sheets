@@ -124,6 +124,13 @@ jaq -c --from csv data.csv
 # CSV 全体を1つの配列としてまとめて読み込む
 jaq -c --from csv --slurp data.csv
 
+# CSV のヘッダー行をキーにしたオブジェクトへ変換する
+# （table.jq の from_table は1行ずつ出力するジェネレータなので [ ] で配列にまとめる）
+jaq -s -L . 'include "table"; [from_table]' data.csv
+
+# さらに {table: [...]} のようなオブジェクトの中に配列として詰める
+jaq -s -L . 'include "table"; {table: [from_table]}' data.csv
+
 # XML を読み込んでクエリ（タグは {t: 名前, a: 属性, c: 子要素} で表現される）
 jaq --from xml '.. | select(.t? == "a") | .a.href' page.xhtml
 
@@ -171,7 +178,7 @@ jaq -f filter.jq data.json
 - インストールは `cargo install jaq`（Rust ツールチェーンが必要）が手軽です。
 - TOML への出力（`--to toml`）はルート値がオブジェクトである必要があり、配列や `null` を含むオブジェクトなどは出力に失敗します。
 - XML は要素を `{"t": タグ名, "a": 属性, "c": 子要素の配列}` という TAC オブジェクトの形で表現し、コメントや CDATA、XML宣言なども情報を欠落させずに扱えます（ラウンドトリップ可能な設計）。
-- CSV/TSV はヘッダー行を自動でオブジェクトのキーにはせず、各行が単純な配列になります。ヘッダー付きで扱いたい場合は公式リポジトリの `examples/table.jq`（`from_table` などのヘルパー）が参考になります。
+- CSV/TSV はヘッダー行を自動でオブジェクトのキーにはせず、各行が単純な配列になります。ヘッダー付きで扱いたい場合は公式リポジトリの `examples/table.jq`（`from_table` などのヘルパー）が参考になります。`from_table` は1行ずつオブジェクトを出力するジェネレータなので、単体で呼ぶと複数の値が並んで出力されます。`[from_table]` のように `[ ]` で囲むと1つの配列にまとめられ（`jq`/`jaq` 共通のイディオムです）、`{table: [from_table]}` のように任意のキーの下にネストさせることもできます。
 - YAML の出力にはデフォルトで `---`（開始）/ `...`（終了）が付きます。複数の値をまとめて出力したい場合は `-j`（`--join-output`）で省略できます。
 
 ## Related Links
