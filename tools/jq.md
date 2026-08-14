@@ -66,7 +66,79 @@ map(.price * 1.1)
 if .age >= 18 then "adult" else "minor" end
 ```
 
-よく使う組み込み関数: `length` `keys` `has` `type` `to_entries` `from_entries` `sort_by` `group_by` `unique` `add` `range` `reduce` `foreach`
+### よく使う組み込み関数
+
+| 関数 | 意味 |
+|---|---|
+| `length` | 値の「長さ」（文字列: 文字数 / 配列: 要素数 / オブジェクト: キー数 / 数値: 絶対値） |
+| `keys` | オブジェクトのキー一覧をソート済み配列で返す（配列なら添字の配列） |
+| `has(x)` | オブジェクトがキー `x` を持つか、配列がインデックス `x` を持つかを真偽値で返す |
+| `type` | 値の型を文字列で返す（`"null"` `"boolean"` `"number"` `"string"` `"array"` `"object"`） |
+| `to_entries` | オブジェクトを `{key, value}` の配列に変換する |
+| `from_entries` | `to_entries` の逆変換。`{key,value}` 形式の配列をオブジェクトに戻す |
+| `sort_by(f)` | `f` を適用した結果を基準に配列を並び替える |
+| `group_by(f)` | `f` の結果が同じ要素同士をグループ化する（結果はグループキー順にソートされる） |
+| `unique` | 配列をソートしつつ重複を除去する |
+| `add` | 配列の要素を `+` で畳み込む（数値は合計、文字列/配列は連結、オブジェクトはマージ、空配列は `null`） |
+| `range(...)` | 数値のストリームを生成する |
+| `reduce` | 式の出力を1つずつ変数に束縛しながら畳み込み、最終結果だけを返す |
+| `foreach` | `reduce` と同じ畳み込みをしつつ、各ステップの中間結果も逐次出力する |
+
+```jq
+# length
+"hello" | length            # => 5（文字数）
+[1,2,3] | length            # => 3（要素数）
+{"a":1,"b":2} | length      # => 2（キー数）
+
+# keys
+{"b":2,"a":1} | keys        # => ["a","b"]（ソート済み）
+
+# has
+{"a":1} | has("a")          # => true
+[1,2,3] | has(5)            # => false（インデックス5は存在しない）
+
+# type
+[1,"a",null,true,{},[]] | map(type)
+# => ["number","string","null","boolean","object","array"]
+
+# to_entries
+{"a":1,"b":2} | to_entries
+# => [{"key":"a","value":1},{"key":"b","value":2}]
+
+# from_entries（to_entries の逆変換）
+[{"key":"a","value":1},{"key":"b","value":2}] | from_entries
+# => {"a":1,"b":2}
+
+# sort_by
+[{"name":"b","age":30},{"name":"a","age":20}] | sort_by(.age)
+# => [{"name":"a","age":20},{"name":"b","age":30}]
+
+# group_by
+[{"type":"fruit","name":"apple"},{"type":"veg","name":"carrot"},{"type":"fruit","name":"banana"}]
+  | group_by(.type)
+# => [[{apple,fruit},{banana,fruit}], [{carrot,veg}]]（グループの配列）
+
+# unique
+[3,1,2,1,3] | unique         # => [1,2,3]
+
+# add
+[1,2,3] | add                # => 6（合計）
+["a","b","c"] | add          # => "abc"（連結）
+[{"a":1},{"b":2}] | add      # => {"a":1,"b":2}（マージ）
+
+# range
+range(3)                     # => 0, 1, 2
+range(2;5)                   # => 2, 3, 4
+range(0;10;3)                # => 0, 3, 6, 9
+
+# reduce: INIT から始めて、EXPR の出力ごとに UPDATE で畳み込み、最終結果だけを返す
+[1,2,3,4] | reduce .[] as $x (0; . + $x)
+# => 10（合計だけを出力）
+
+# foreach: reduce と同じ畳み込みだが、途中経過も逐次出力する
+[1,2,3,4] | foreach .[] as $x (0; . + $x; .)
+# => 1, 3, 6, 10（累積和のストリーム）
+```
 
 ## Common Examples
 
