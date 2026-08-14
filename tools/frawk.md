@@ -90,10 +90,17 @@ frawk -i csv -j 4 '{sum += $2} END {print sum}' data.csv
 - `-i` / `-o` はそれぞれ入力・出力フォーマットの指定で、`--csv` / `--tsv` は両方を同じフォーマットに揃える省略形です。CSV↔TSV 変換にもそのまま使えます。
 - 複雑な処理は `jq` や `python` に寄せることもあります。
 - Windows は作者自身も「テストしていない」としており、公式サポート外です。`cargo install frawk` をデフォルト設定のまま実行すると、既定で有効な `use_jemalloc`（Windows/MSVC でビルド不可）や `llvm_backend`（LLVM 12 の用意が必要）が原因でビルドが失敗します。
+- `--no-default-features` でビルド自体は通っても、実行時の既定バックエンドである Cranelift JIT が Windows 上では既知のバグでクラッシュすることがあります（`panicked at ...codegen\clif.rs` や `codegen\intrinsics.rs` などのエラー、未解決の [Issue #101](https://github.com/ezrosent/frawk/issues/101) / [Issue #108](https://github.com/ezrosent/frawk/issues/108)）。この場合は `-B interp`（バイトコードインタプリタ）を指定すると回避できます。JIT より低速ですが、Windows では確実に動作します。
+- ただし `-B interp` は frawk の3バックエンド中もっとも実行が遅いモードです（公式ヘルプいわく `interp` は「コンパイルは最速だが実行は最も低速」、逆に `llvm` は「コンパイルは最も低速だが実行は最速」で、既定の `cranelift` はその中間）。つまり Windows では frawk の売りである JIT の高速実行を活かせず、実質「遅い方の frawk」しか安定して使えません。大きいデータを高速に処理したいのが目的なら、Windows では [jaq](jaq.md)（CSV/TSV 対応あり）や GNU awk、goawk など frawk 以外の選択肢も検討したほうが実用的な場合があります。
 
 ```bash
 # Windows でビルドする場合は jemalloc / LLVM backend / nightly 機能をすべて無効化する
 cargo install frawk --no-default-features
+
+# Windows では既定の Cranelift バックエンドがクラッシュすることがあるため、
+# インタプリタバックエンドを明示的に指定すると安定して動く
+frawk -B interp '{print $1}' data.txt
+echo a,b,c | frawk -B interp -F',' '{print $1}'
 ```
 
 ## Related Links
