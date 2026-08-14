@@ -28,7 +28,7 @@
 - ツール: 特定の領域に特化したユーティリティです。データ処理・メディア処理・バイナリ確認などに向いています。
   - 例: awk, frawk, ffmpeg, jq, jaq, hexyl
 - データ形式: CLI ではなく、設定ファイルやデータのやり取りで使う記述フォーマットそのものです。構文や書き方のリファレンスとして使います。
-  - 例: JSON, YAML, TOML, 正規表現
+  - 例: JSON, YAML, TOML, 正規表現, XPath, CSS セレクタ
 
 ## 目次
 
@@ -58,6 +58,8 @@
 - [YAML](formats/yaml.md) - インデントで構造を表す設定ファイル向けフォーマット
 - [TOML](formats/toml.md) - キーと値を中心としたシンプルな設定ファイル向けフォーマット
 - [Regex](formats/regex.md) - 文字列パターンマッチングのミニ言語
+- [XPath](formats/xpath.md) - XML/HTML のノードを選択するパス指向のクエリ言語
+- [CSS Selector](formats/css-selector.md) - HTML/XML の要素を選択するパターン記法
 
 ## 1シートの構成
 
@@ -89,7 +91,7 @@
 - データ処理: jq / jaq / awk / frawk / hexyl
 - メディア処理: ffmpeg
 - DB操作: sqlite3
-- データ形式: JSON / YAML / TOML / 正規表現
+- データ形式: JSON / YAML / TOML / 正規表現 / XPath / CSS Selector
 
 ### 学習の順序
 
@@ -98,4 +100,4 @@
 3. その後にデータ処理: jq / jaq / awk / frawk / hexyl
 4. メディア変換: ffmpeg
 5. DB を触ってみる: sqlite3
-6. 合わせてデータ形式の基礎: JSON / YAML / TOML / 正規表現
+6. 合わせてデータ形式の基礎: JSON / YAML / TOML / 正規表現 / XPath / CSS Selector
