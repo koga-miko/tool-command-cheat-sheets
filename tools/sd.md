@@ -78,6 +78,46 @@ sequenceDiagram
 
 このように `sd` はファイルを直接書き換えるだけでなく、標準入出力のフィルタとして使うことで「ログ → 別フォーマットへの変換」パイプラインの1ステップとしても使えます（今回は `<` でログを読み込み、前後に Mermaid のコードフェンスを足しているだけで、ログの中身自体は `sd` の正規表現置換だけで変換しています）。
 
+## 実例: 複数の置換ペアを外部ファイルにまとめて適用する
+
+`sd` は1回の実行につき「置換前・置換後」を1ペアしか受け取れず、複数ペアを一括で読み込む機能はありません。複数ペアを扱いたい場合は、シェルで `sd` を繰り返し実行するのが基本方針になります。ペアの数が少なければパイプで直接つなげられますし、ペアが多い・使い回したい場合は TSV のような外部ファイルに切り出して、シェルのループで順番に適用できます。
+
+```bash
+# ペアが少ない場合: パイプで直接つなげる
+echo 'foo and baz say hello' | sd 'foo' 'bar' | sd 'baz' 'qux' | sd 'hello' 'world'
+# => bar and qux say world
+```
+
+`pairs.tsv`（置換前後のペアを1行ずつ「置換前 <TAB> 置換後」で書いたファイル）:
+
+```text
+foo	bar
+baz	qux
+hello	world
+```
+
+`target.txt`（変換前）:
+
+```text
+foo and baz say hello
+foo baz hello again
+```
+
+`pairs.tsv` を1行ずつ読み込み、`target.txt` に対して順番に in-place 適用します。
+
+```bash
+while IFS=$'\t' read -r from to; do
+  sd -F "$from" "$to" target.txt
+done < pairs.tsv
+```
+
+`target.txt`（変換後）:
+
+```text
+bar and qux say world
+bar qux world again
+```
+
 ## Frequently Used Options
 
 ```bash
@@ -107,6 +147,7 @@ sd -f im '^error' '[ERROR]' log.txt
 - ファイル引数を省略すると標準入力を読み標準出力へ書き出す「フィルタ」として動作します。元ファイルを保持したまま別ファイルへ変換結果を出したい場合はこちらを使います（本ページの Mermaid 変換例もこの方式です）。
 - 内部的に Rust の `regex` クレートを使っているため、[正規表現のNotes](../formats/regex.md)にある通り先読み・後読み（lookaround）は使えません。複雑な文脈依存の置換が必要な場合は Perl や Python への切り替えを検討してください。
 - `-F`（リテラルモード）は、置換したい文字列自体に `.`や`(`など正規表現の特殊文字が含まれる場合（バージョン番号やファイルパスなど）に便利です。
+- `sd` 自体には置換ペアを複数まとめて渡す機能（`-r pairs.tsv` のようなオプション）はありません。複数ペアを扱いたい場合は、上記の実例のように `sd` をシェルで繰り返し実行する（パイプで直接つなげる、または TSV などの外部ファイルをループで読み込む）のが基本的なやり方です。
 
 ## Related Links
 
