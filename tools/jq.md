@@ -116,7 +116,8 @@ if .age >= 18 then "adult" else "minor" end
 # group_by
 [{"type":"fruit","name":"apple"},{"type":"veg","name":"carrot"},{"type":"fruit","name":"banana"}]
   | group_by(.type)
-# => [[{apple,fruit},{banana,fruit}], [{carrot,veg}]]（グループの配列）
+# => [[{"type":"fruit","name":"apple"},{"type":"fruit","name":"banana"}],[{"type":"veg","name":"carrot"}]]
+# （.type の値でソートされた「グループの配列」。fruit グループが先、veg グループが後）
 
 # unique
 [3,1,2,1,3] | unique         # => [1,2,3]
