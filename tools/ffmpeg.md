@@ -39,6 +39,10 @@ ffmpeg -ss 00:00:05 -i input.mp4 -vframes 1 thumbnail.jpg
 
 # 1 秒ごとに画像を出力
 ffmpeg -i input.mp4 -vf fps=1 frame_%03d.png
+
+# ヘッダーの無い RAW PCM 音声（16bit/22.05kHz/モノラル）を WAV に変換
+# RAW PCM はファイル自体にフォーマット情報が無いため、入力側で明示的に指定する
+ffmpeg -f s16le -ar 22050 -ac 1 -i input.pcm output.wav
 ```
 
 ## Frequently Used Options
@@ -65,6 +69,7 @@ ffmpeg -i input.mp4 -b:v 1000k output.mp4
 - `-i` の後に入力ファイル、続けて出力ファイルを置くのが基本です。
 - 圧縮品質や解像度の指定が重要です。
 - 変換前後のファイル形式を確認すると安心です。
+- RAW PCM（拡張子 `.pcm` や `.raw` など）はファイル自体にサンプルレート・チャンネル数・ビット深度・エンディアンの情報を持たないため、`-f`（入力フォーマット）・`-ar`（サンプルレート）・`-ac`（チャンネル数）を入力側オプションとして明示する必要があります。`s16le` は符号あり16bit・リトルエンディアンを表し、ビッグエンディアンの場合は `s16be` を使います（値を間違えるとノイズや再生速度のズレとして現れます）。この変換は実際に `ffmpeg -f s16le -ar 22050 -ac 1 -i input.pcm output.wav` で動作確認済みです。
 
 ## Related Links
 
